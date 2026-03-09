@@ -1,0 +1,333 @@
+documentclass{article}
+
+% PREAMBLE
+% this imports the right packages and sets some options
+
+% optional make use of more of the page
+usepackage[margin=1in]{geometry}
+
+% optional increase the colours you can use. All the CamlCaseColours come from these.
+% Warning Sometimes there are conflicts with other packages
+usepackage[usenames,dvipsnames,svgnames]{xcolor}
+% can even define your own colours!
+definecolor{britishracinggreen}{rgb}{0.0, 0.3, 0.15}
+
+
+% For links
+usepackage{hyperref}
+% just for fun make nice colours for the links (default is kind of nasty)
+hypersetup{colorlinks=true,linkcolor=DarkBlue,citecolor=britishracinggreen,urlcolor=Indigo}
+
+
+
+% needed for importing any graphics
+usepackage{graphicx}
+
+% for dependency trees
+usepackage{tikz-dependency}
+
+% optional you can make your own styles
+% depstyle{style name}{properties to change from default}
+depstyle{EUD}{edge style={blue}, label style={fill=blue, text=white}, edge below}
+
+
+%%%%%%%%%%%% GRAPHVIZ %%%%%%%%%%%%%%%
+
+% if you use the singlefile option, your graphs are not put into dot files as you name them
+% (in the example, pilotfromlatex.dot) but instead in tmpmaster.graphviz. This allows you to have more graphs in one document.
+usepackage[pdf % ,singlefile
+]{graphviz}
+
+% Make a title and author and date
+title{Drawing graphs texttt{tikz-dependency} and texttt{GraphViz}}
+author{M4LP}
+date{Computer Practicum 1 & Homework 1}
+
+%%%%%%% END PREAMBLE %%%%%%%
+
+begin{document}
+
+maketitle
+
+Most of the LaTeX{} code in this document can only be seen in the source file (homework1.tex), so make sure you're looking there, not just in the PDF.
+
+This document contains examples and a small tutorial for two ways of creating linguistic graphs. At the end there is also a small assignment, to be done in groups.
+
+section{Collaboration}
+
+begin{itemize}
+item To work in groups, we recommend you make a textbf{private repository} on GitHub and handle your assignment collaboration there
+item You'll probably want this for at least some of the coding assignments anyway, so this is a good chance to get that set up and test it out
+item Overleaf (see LaTeX{} below) is a web-based LaTeX{} system, but the free accounts only allow 1-2 people to have access to the same file. 
+
+end{itemize}
+
+section{LaTeX}
+label{seclatex}
+
+If you do not currently have a working LaTeX{} distribution running on your computer, I strongly recommend you make an account on Overleaf (url{httpswww.overleaf.com}) and work there. Similarly, if you have any trouble getting GraphViz working.
+
+If you are not at all familiar with LaTeX{}, please make sure someone in your group is. This exercise assumes a basic familiarity. However, there are tutorials on Overleaf if you would like to take a look at those as well.
+
+In general, most people learn LaTeX{} by copying, pasting, and editing LaTeX{} code. I suggest you do that as well. Copy and paste the preamble (the part before the verb!begin{document}! statement) into an empty text file (or on Overleaf) and name it texttt{yourfilename.tex}. Copy and paste in the verb!begin{document}! and verb!end{document}! and work in between them. Type some stuff and run texttt{pdflatex} on the file. (If on Overleaf, just click the button. If in the command line, verb!pdflatex yourfilename.tex!. If in another LaTeX{} editor, whatever you're supposed to do there.) Make sure this works before you go on.
+
+  Also, make sure this file compiles and generates the same PDF as provided in homework1.pdf.
+
+  Then start copying, pasting, and editing the dependency trees.
+
+
+section{Packages and documentation}
+label{secpack-docum}
+
+subsection{Dependency trees texttt{tikz-dependency}}
+label{secdependency-trees}
+
+
+LaTeX{} Package
+href{httpsctan.orgpkgtikz-dependency}{httpsctan.orgpkgtikz-dependency}
+
+Excellent documentation href{httpmirrors.ctan.orggraphicspgfcontribtikz-dependencytikz-dependency-doc.pdf}{httpmirrors.ctan.orggraphicspgfcontribtikz-dependencytikz-dependency-doc.pdf}
+
+subsection{Graphs GraphViz}
+label{secgraphs-graphviz}
+
+To draw graphs in general, you can use GraphViz, a.k.a. dot.
+
+Documentation
+href{httpsgraphviz.orgdocslayoutsdot}{httpsgraphviz.orgdocslayoutsdot}
+
+You can also, maybe, compile graphs within LaTeX using GraphViz.
+
+Install on Windows seems to be a little complicated, but everyone online links to this post
+
+url{httpsforum.graphviz.orgtnew-simplified-installation-procedure-on-windows224}
+
+I think the exe files here are probably the most recent (rather than the ones the forum post above links to) url{httpsgraphviz.orgdownload}
+
+Mac and Linux instructions are also at url{httpsgraphviz.orgdownload}.
+
+LaTeX{} package relies on a working installation of graphviz. If that's not working for you, I recommend you try using Overleaf (url{httpswww.overleaf.com}) because not only do they have GraphViz running, but they will also compile your LaTeX{} document with the right settings to make it work.
+
+
+Documentation
+url{httpstug.ctan.orgmacroslatexcontribgraphvizgraphviz.pdf}
+
+Package
+url{httpsctan.orgpkggraphviz}
+
+
+section{Dependencies}
+label{secdependencies}
+
+
+
+Simple example from Lecture 3, default behaviours. verb!depedge{i}{j}{label}! makes an edge from word texttt{i} to word texttt{j} (1-indexed) with the label texttt{label}. Separate words in the texttt{deptext} environment with verb!&! (don't forget the backslash!)
+
+
+For reasons I don't understand, built-in themes are called with verb!theme=theme name! and your own are just verb!theme name!. See up in the preamble for how I defined the texttt{EUD} theme (style).
+
+    begin{dependency}
+      begin{deptext}[column sep=0.3cm]
+        The & pilot & needs & to & fix & the & plane & quickly 
+      end{deptext}
+      deproot[theme=grassy, edge unit distance=3.5ex]{3}{root}
+      depedge[theme=grassy]{1}{2}{BV}
+      depedge[theme=grassy]{3}{2}{ARG1}
+      depedge[theme=grassy]{3}{5}{ARG2}
+      depedge[theme=grassy]{6}{7}{BV}
+      depedge[theme=grassy]{5}{7}{ARG1}
+      depedge[theme=grassy]{5}{2}{ARG1}
+      depedge[theme=grassy]{8}{5}{ARG1}        
+      deproot[style=EUD, edge unit distance=3.5ex,]{3}{root}
+      depedge[EUD]{2}{1}{det}
+      depedge[EUD]{3}{2}{nsubj}
+      depedge[EUD]{5}{4}{to}
+      depedge[EUD]{3}{5}{xcomp}
+      depedge[EUD]{7}{6}{det}
+      depedge[EUD]{5}{7}{dobj}
+      depedge[EUD]{5}{2}{nsubj}
+      depedge[EUD]{5}{8}{amod}        
+    end{dependency}
+
+
+section{GraphViz}
+label{secgraphviz}
+
+The Dot language defines graphs in a quite intuitive way.
+
+begin{itemize}
+item Semi-colons (texttt{;}) separate components.
+item nodes are defined by a name (e.g. texttt{crash;})
+item edges are defined by node names separated by verb!-! (e.g. verb!crash - person;!)
+item nodes and edges can be given additional properties in square brackets (e.g. verb!crash [label=crash-01, style=bold];! means the node label of the node called texttt{crash} is labelled verb!crash-01! and the outline is bold.
+item If a node isn't given a label, its label is its name. (e.g. texttt{person}) is only ever defined as part of edges. It is printed with the label texttt{person}.)
+item start with the word texttt{digraph} then a name for the graph. Everything else goes inside braces texttt{{}}
+end{itemize}
+
+Example (also in the file pilot.dot)
+
+begin{verbatim}
+digraph pilot {
+    crash [label=crash-01, style=bold];
+    pilot [label=pilot-1];
+    crash - person [label=ARG0];
+    crash - plane [label=ARG1];
+    plane- person [label=poss];
+    pilot-person [label=ARG0]
+    }
+end{verbatim}
+
+If I run verb!dot -Tpdf -o pilot.pdf pilot.dot! in the terminal, it creates a PDF, which can be imported into this LaTeX{} document
+
+%includegraphics[width=0.5textwidth]{pilot.pdf}
+
+To use GraphViz, use a text editor to create a text file with a graph in it, like the one above. You can also put multiple graphs in one file, and automatically create PDFs with the option texttt{-O} (capital O). For example, using the file graphs.dot
+
+begin{verbatim}
+dot -Tpdf -O graphs.dot
+end{verbatim}
+
+
+
+subsection{GraphViz LaTeX{} package}
+label{secgraphv-latex-pack}
+
+In LaTeX{} code, add a backslash before texttt{digraph} and put the graph name in braces. Optionally, add arguments like texttt{width} in square brackets first. Give the graph a really simple name with no punctuation to avoid errors.
+
+
+digraph[width=0.5textwidth]{pilotfromlatex} {
+    crash [label=crash-01, style=bold];
+    pilot [label=pilot-1];
+    crash - person [label=ARG0];
+    crash - plane [label=ARG1];
+    plane- person [label=poss];
+    pilot-person [label=ARG0]
+    }
+
+
+LaTeX{} needs to be run with the option texttt{-shell-escape} in order to create the pdf automatically. (These instructions pop up in place of the graphic when you run it for the first time.)
+
+However, even without that option, when you compile the document you will get a dot file texttt{graph name.dot} created (here, verb!pilotfromlatex.dot!), which you can then turn into a PDF yourself if you have GraphViz working. Once you make the PDF, that PDF will just be imported like any other graphic.
+
+``Running LaTeX{} with the texttt{-shell-escape} option'' means if you run it from the command line, write verb!pdflatex -shell-escape homework1.tex!. If you're using Overleaf, it should do it automatically. If you're using a dedicated LaTeX{} IDE, you'll have to look up how to pass options to it. (But as long as you have Dot, you can always build the graph directly with dot from the command line.)
+
+
+% This will create and import the graph.
+digraph[width=0.5textwidth]{pilotfromlatex} {
+    crash [label=crash-01, style=bold];
+    pilot [label=pilot-1];
+    crash - person [label=ARG0];
+    crash - plane [label=ARG1];
+    plane- person [label=poss];
+    pilot-person [label=ARG0]
+    }
+
+
+Warning The GraphViz package and the tikz-dependency package both use tikz, which has a limited number of graphics can be made in one file. If you run into weird problems, you may have too many tikz graphics all in one file. Try using the texttt{singlefile} option (see preamble of this LaTeX{} document).
+
+
+section{Practice}
+
+The following are some suggestions for exercises. The problems for points are in section ref{sechomework-1} below.
+
+begin{enumerate}
+
+item Using the first dependency tree above as a guide (the simple black-and-white one), propose annotations for the following sentences. Use edge label texttt{mod} for modifiers. Make things up if you don't know what to do! Can use whatever colouring and styles you like as long as it's legible.
+
+begin{enumerate}
+
+item The fox ran around
+item Who did the Prince meet in the desert
+item Draw me a sheep
+
+end{enumerate}
+
+item Using the verb!depstyle! declaration for EUD in the preamble above as a guide, define a new style with red edges and label backgrounds, and edges above instead of below the text. Make sure the text is legible. Use it to re-do the double-annotated tree above for textit{The pilot needs to fix the plane quickly}, using your new style for the upper (green) edges.
+
+item Use graphviz for the three practice sentences above. Use the same edge labels and edge directions as you chose for your trees, but let GraphViz chose how to lay them out on the page. They'll look really different -- not all in a row -- so check that they really are the same.
+
+
+end{enumerate}
+
+
+
+section{Homework 1}
+label{sechomework-1}
+
+A small homework assignment. Instructions
+
+begin{itemize}
+item Form a homework group
+item You and your homework group will hand in one assignment together
+item The assignment has 2 questions.
+item Recommendation copy, paste, and edit provided examples.
+item Please zip and hand in the following
+  begin{enumerate}
+  item A PDF typeset in LaTeX{} containing answers to both questions, and your group information.
+  item The latex file that generates the above (the one with the texttt{.tex} suffix).
+  item If (1) doesn't contain your Dot code, then also your Dot file (something like prince.dot)
+  end{enumerate}
+item We should be able to re-create your submitted PDF by running texttt{pdflatex} with the texttt{-shell-escape} option on your .tex file. Or, if you submit a Dot file instead of including the Dot code in your LaTeX{} file, then we would run dot first, then texttt{pdflatex}.
+item Your PDF (and therefore also your .tex file) should include your names, group number, and a title (``Homework 1'' will do). 
+item The idea is to show that you can make a dependency tree with LaTeX{}, a graphviz graph with Dot (either within LaTeX{} or in a pure dot file), and include that graph in a LaTeX{}-generated PDF.
+item You can't just import the PDFs that I gave you!
+end{itemize}
+
+subsection{Dependencies}
+label{secdependencies-1}
+
+Re-create this Universal Dependencies dependency tree. The requirements are as follows; everything else is up to you. Please include the code for it in the tex file you hand in. (In order to keep the solution secret, I built it in a standalone document and included it as a graphic, but you should just write the code into your solution the same way I did in the examples.)
+
+Make sure the following 3 things hold
+
+begin{enumerate}
+item All the words and edges have the correct labels and directions and are readable.
+item The texttt{mod} edge from textit{surprise} to textit{morning} is blue, in that the edge is blue and the label is in some way both blue and legible. (The text itself can be blue, or the oval behind it. Make sure the text is easy to read.) 
+item The texttt{mod} edge from textit{surprise} to textit{morning} is below the text. It's okay if it's really far from the text.
+
+
+end{enumerate}
+
+%includegraphics[width=0.6textwidth]{exercise.pdf}
+
+subsection{GraphViz}
+label{secgraphviz-1}
+
+Typeset a graph in GraphViz for the Abstract Meaning Representation (AMR) of the sentence textit{Thus you can imagine my amazement, at sunrise, when I was awakened by an odd little voice.}. It should look  like the one below. It doesn’t matter what colours, fonts, node styles, etc you use (except for one node -- see below). Note also that GraphViz chooses its own layout, so the shape may be a little different. Just make sure the information is the same (The node labels and the edges and their labels.)
+
+The node labeled texttt{cause-01} is the ``root'' of the graph, which you should annotate by making its outline bold the same way that the texttt{crash-01} node is bold in the example.
+
+You can use GraphViz directly or in LaTeX{} to create the graph. Import it into a LaTeX{} document, in any case, together with the dependency tree you create in the second question, below.
+
+
+%includegraphics[width=0.5textwidth]{prince.pdf}
+
+If you're curious about AMRs, we'll talk about them at length in Week 3! You can also see the standard text notation for this corpus item down below the verb!end{document}!. It's from The Little Prince.
+
+
+end{document}
+
+
+
+
+# id lpp_1943.43 date 2012-07-24T111646 annotator ISI-AMR-05 preferred
+# snt Thus you can imagine my amazement , at sunrise , when I was awakened by an odd little voice .
+# save-date Mon May 13, 2013 file lpp_1943_43.txt
+(c  cause-01
+      ARG1 (p  possible-01
+            ARG1 (i2  imagine-01
+                  ARG0 (y  you)
+                  ARG1 (a  amaze-01
+                        ARG1 (i  i)
+                        time (s  sunrise
+                              time-of (w  wake-01
+                                    ARG0 (v  voice
+                                          mod (o  odd)
+                                          mod (l  little))
+                                    ARG1 i))))))
+
+
+%%% Local Variables
+%%% mode latex
+%%% TeX-master t
+%%% End

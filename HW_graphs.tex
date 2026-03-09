@@ -1,0 +1,849 @@
+\documentclass[addpoints
+%  , answers  % uncomment this line to display your answers
+]{exam} 
+\usepackage[left=1in, top=1in, right=1in, foot=0.85in]{geometry}
+\usepackage{graphicx}
+\usepackage{subcaption}
+
+\usepackage{amsmath, amsthm}
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}[section]
+
+\usepackage[usenames,dvipsnames,svgnames]{xcolor}
+\definecolor{britishracinggreen}{rgb}{0.0, 0.3, 0.15}
+\usepackage{hyperref}
+\hypersetup{colorlinks=true,linkcolor=DarkBlue,citecolor=britishracinggreen,urlcolor=Indigo}
+
+\usepackage{tikz-dependency}
+\depstyle{EUD}{edge style={DarkBlue}, label style={fill=DarkBlue, text=white, font=\bfseries}, edge below, edge unit distance=2.5ex}
+
+\usepackage[linguistics]{forest}
+
+\newcommand{\todo}[1]{\textcolor{red}{To Do: #1}}
+
+\newcommand{\handin}{\textcolor{red}{\textbf{Hand this in}}}
+\newcommand{\exer}{Exercise (not for points)}
+
+\newcommand{\apply}[1]{\textsc{App}\ensuremath{_{\text{#1}}}}
+\newcommand{\modify}[1]{\textsc{Mod}\ensuremath{_{\text{#1}}}}
+
+
+\newcommand{\graphname}[2]{\ensuremath{\text{\textit{#1}}_{\text{#2}}}}
+\newcommand{\subgraph}[1]{\ensuremath{\langle \text{\texttt{#1}}\rangle}}
+
+\newcommand{\graphconstant}[2]{\ensuremath{\text{G}_{\text{#1}}}[\text{#2}]}
+
+
+\usepackage{float}
+\usepackage{placeins}
+
+\graphicspath{{constants}}
+
+\usepackage{linguex}
+
+\title{Homework 4 + Exercises: Graphs and Dependencies} % \todo{WITH SOLUTIONS}}
+\author{M4LP 2024}
+\date{due Wednesday, May 15 by midnight.}
+
+\begin{document}
+
+\maketitle
+
+\section{Instructions}
+\label{sec:instructions}
+
+
+
+This is a mix of exercises you don't need to hand in and ones you do.
+
+Questions you don't need to hand in are marked with 0 points and are labelled ``\exer''. Ones you do have to hand in have point values and are labelled ``\handin''. 
+
+Please write up your solutions in \LaTeX{}. Points will be deducted for non-typeset answers, and difficult-to-read answers run the risk of a 0. For the dependencies, you'll presumably want to use \texttt{tikz-dependency}. For AMR, feel free to use \texttt{GraphViz} or \texttt{tikz-dependency} as convenient, since AMR nodes aren't ordered.
+
+%You are encouraged to write your solutions up in \LaTeX{}. You can also use pen and paper and scan the document, as long as it is easy to read. A hybrid solution is to make some of your figures by hand, scan them, and make them figures in a \LaTeX{} document.
+
+There is also a \LaTeX{} version of this assignment that you can download and edit to include your answers if you like. Uncomment the second line in the preamble and your answers will appear in the solutions environments.
+
+\section{Point totals}
+\label{sec:point-totals}
+
+
+\combinedgradetable[h][questions]
+
+
+\section{Questions}
+\label{sec:questions}
+
+\begin{questions}
+
+
+\question[1] \handin{} Who worked on this assignment, and what did they contribute?
+
+
+\subsection{AMR annotation}
+\label{sec:amr-annotation}
+  
+  
+\question It is difficult to get from an AMR to a sentence, though it's easier when you have some idea what it might be. These are from the English translation of \textit{Le petit prince} by de Saint-Exup\'ery. The AMR developers annotated the whole book and have made it available for free. These are from the development set.
+   
+  Give a possible English sentence or phrase for each AMR. Use the AMR guidelines in the separate AMR Cheatsheet (also on Blackboard) to help you. You don't need to make sure your answer is a real sentence from \textit{The Little Prince}; it just needs to be a possible sentence for the graph.
+
+  
+  \begin{parts}
+  \part[0] \exer
+
+    \includegraphics[width=0.5\linewidth]{dev.dot.16.pdf}
+    \begin{solution}
+      They always need to have things explained .
+    \end{solution}
+    
+  \part[0] \exer
+
+    \includegraphics[width=0.5\linewidth]{dev.dot.12.pdf}
+    \begin{solution}
+      Why should any one be frightened by a hat ?
+
+      Why does a hat frighten anyone?
+
+      What causes a hat to frighten any one?
+    \end{solution}
+
+  \part[0] \exer: See what you can make of this one!
+    
+    \includegraphics[width=\linewidth]{amrs.dot.4.pdf}
+    \begin{solution}
+     Grown-ups never understand anything by themselves , and it is tiresome for children to be always and forever explaining things to them .
+    \end{solution}
+
+    
+  \part[1] \handin
+    
+    \includegraphics[width=0.5\linewidth]{dev.dot.46.pdf}
+   
+  \end{parts}
+
+  
+\question Using the annotation guidelines provided in the AMR Cheatsheet and the additional information provided, draw an AMR graph for each English phrase.
+
+  \begin{parts}
+  \part[0] \exer
+
+    \textbf{Phrase to annotate:} \textit{The women slept.}\\
+
+\textbf{ Some PropBank frames for \textit{sleep}:}
+\begin{verbatim}
+sleep.01 - sleep, slumbering
+Aliases:
+   sleep (v.)
+   sleep (n.)
+   sleeping (n.)
+   asleep (j.)
+Roles:
+   ARG0: sleeper
+   ARG1: cognate object
+   ARG2: expected terminus of sleep
+
+sleep.02 - engage in sexual relations
+Aliases:
+   sleep (v.)
+   sleeping (n.)
+Roles:
+   ARG0: agentive partner
+   ARG1: prepositional partner
+\end{verbatim}
+    
+
+  \part[1] \handin
+
+    \textbf{Phrase to annotate:} \textit{The fox fell.}\\
+
+\textbf{PropBank frame:}
+\begin{verbatim}
+fall.01 - move downward
+Aliases:
+  fall (v.)
+  fall (n.)
+  falling (n.)
+Roles:
+  ARG1: Logical subject, patient, thing falling
+  ARG2: EXT, amount fallen
+  ARG3: start point
+  ARG4: end point, end state of arg1
+  ARGM: medium
+
+\end{verbatim}
+
+\begin{solution}
+
+ 
+\end{solution}
+
+
+  \part[0] \exer
+
+    \textbf{Phrase to annotate:} \textit{Noam Chomsky}
+    
+    This is a named entity, and there is a Wikipedia article about him. See the attached guidelines.
+
+    \begin{solution}[10em]
+
+      \includegraphics[width=0.4\textwidth]{amrs.dot.8}
+    \end{solution}
+
+  \part[3] \handin.
+
+    \textbf{Phrase to annotate:} \textit{The fox slept or fell.}
+
+    AMR note: \textit{or} is annotated the same as \textit{and}, but with the node labelled \texttt{or}.
+
+    \begin{solution}[10em]
+       
+    \end{solution}
+
+    
+  \part[6] \handin
+
+    \textbf{Phrase to annotate:}  \textit{Big Bird wants to be loved.}
+    \begin{itemize}
+    \item This refers to Big Bird from \textit{Sesame Street}, who has a Wikipedia entry. 
+    \item This sentence means that Big Bird desires the situation in which Big Bird is loved. The experiencer/agent of the loving is left unspecified, so you should leave it out of the AMR.
+    \end{itemize}
+    
+
+\textbf{Two PropBank entries that might be of use:}
+\begin{verbatim}
+love.01 - object of affection
+Aliases:
+   love (v.)
+   love (n.)
+   in_love (x.)
+Roles:
+   ARG0: lover
+   ARG1: loved
+
+love.02 - would love, wish very much (polite)
+Aliases:
+   love (v.)
+Roles:
+   ARG0: subject
+   ARG1: phrasal complement
+\end{verbatim}
+
+    \begin{solution}[10em]
+       
+    \end{solution}
+
+\end{parts}
+
+\subsection{Subgraphs}
+\label{sec:subgraphs}
+
+
+\question Subgraphs
+  
+  \begin{definition}[Subgraph]
+    Let $G=\langle N_G, E_G, L_{N_G}, L_{E_G}, r_G\rangle$ be a node- and edge-labelled graph. $S=\langle N_S, E_S, L_{N_S}, L_{E_S}, r_S\rangle$ is a subgraph of $G$ if $S$ is a graph and each of the components of $S$ is a subpart of the corresponding component of $G$. That is, $N_S\subseteq N_G$, $E_S\subseteq E_G$, and for each node or edge in $S$, the labelling function $L_{N_S}$ or $L_{E_S}$ maps it to the same label as the labelling function in $G$, $L_{N_G}$ or $L_{E_G}$.
+  \end{definition}
+  For example, $Y$ is a subgraph of $X$.  Also, $Z$ is a subgraph of $X$, even though it's disconnected. Check the definition and make sure you can see why.
+
+  \begin{figure}[H]
+    \centering
+    \begin{subfigure}[b]{0.3\textwidth}
+      \includegraphics[width=\textwidth]{graphs.dot.pdf}
+      \caption{$X$}
+    \end{subfigure}
+     \begin{subfigure}[b]{0.3\textwidth}
+      \includegraphics[width=\textwidth]{graphs.dot.2.pdf}
+      \caption{$Y$ (Notice the root has changed!)}
+    \end{subfigure}
+     \begin{subfigure}[b]{0.3\textwidth}
+      \includegraphics[width=\textwidth]{graphs.dot.3.pdf}
+      \caption{$Z$}
+    \end{subfigure}
+    \caption{$Y$ and $Z$ are both subgraphs of $X$. Nodes in $X$ are numbers, and are displayed in this graphical representation to make it easier to discuss. If a node is also labelled, its label is below the node number, in quotation marks.}
+    \label{fig:xyz}
+  \end{figure}
+  
+  
+ 
+
+  \begin{parts}
+  \part[0] \exer{}: Look carefully at the definition of \textit{subgraph}, and the graphs $X,Y,Z$. Make sure you can see that $Y$ and $Z$ are indeed subgraphs of $X$.
+    
+
+ \end{parts}
+
+    
+  \question Subgraphs dominated by a node
+    \begin{definition}[Subgraph dominated by a node]
+      Let $n \in N_G$. $\langle n\rangle$ means the \textit{ subgraph dominated by $n$}, which is the subgraph of $G$ with the following properties:
+
+      \begin{enumerate}
+      \item The root of $\langle n\rangle$ is $n$.
+      \item For all $m\in N_G$, if there is a directed path $p$ from $n$ to $m$, then $m$ is a node of $\langle n\rangle$ and every edge in $p$ is an edge of $\langle n\rangle$.
+      \item Every node and edge in $\langle n\rangle$ has a label if and only if it has one in $G$.
+      \end{enumerate}
+    \end{definition}
+
+Notice that $\langle n\rangle$ is by definition a subgraph of $G$, so the labelling is the same.
+
+\begin{figure}[H]
+  \centering
+  \begin{subfigure}[b]{0.3\textwidth}
+    \includegraphics[width=\textwidth]{graphs.dot.5.pdf}
+    \caption{$\langle 2\rangle$ of $X$ (also of $Y$!)}
+  \end{subfigure}
+   \begin{subfigure}[b]{0.3\textwidth}
+    \includegraphics[width=\textwidth]{graphs.dot.6.pdf}
+    \caption{$\langle 1\rangle$ of $X$ (also of $Y$!)}
+  \end{subfigure}
+  \caption{Subgraphs}
+  \label{fig:subgraphs}
+\end{figure}
+
+
+Consider the dependency tree \graphname{UD}{Elmo} in Fig.~\ref{fig:elmo-ud} in Appendix \ref{sec:ud}. Recall that trees can be treated as a type of graph.
+
+
+
+
+\begin{parts}
+\part[0] \exer{}: Draw the subgraph of \graphname{UD}{Elmo} dominated by the node labelled \texttt{Elmo}. Don't forget the root! \label{q:ud-bahf}
+
+  \begin{solution}[20em]
+    \begin{dependency}
+    \begin{deptext}[column sep=0.2cm]
+      Elmo \& and \& grover \\
+    \end{deptext}
+    \deproot{1}{root}
+    \depedge{1}{3}{coord}
+    \depedge{3}{2}{cc}
+  \end{dependency}
+\end{solution}
+
+\part[3] \handin: Draw the subgraph of \graphname{UD}{Elmo} dominated by the node labelled \texttt{sing}. Don't forget the root!
+
+    \begin{solution}[10em]
+       
+    \end{solution}
+
+\part[3] \handin: Draw the subgraph of \graphname{UD}{Elmo} dominated by the node labelled \texttt{dance}. Don't forget the root!
+
+    \begin{solution}[10em]
+       
+    \end{solution}
+
+  \part[3] \handin
+
+  Say whether the following statement is true or false, and explain why: \textit{If $G$ is a tree then for any node n of G,  $\langle n\rangle$ is also a tree.}
+
+     \begin{solution}[10em]
+       
+    \end{solution}
+
+\part[0] Now consider the graph in Fig.~\ref{fig:eud-elmo} in Appendix \ref{sec:enhanc-univ-depend}, which is the Enhanced UD representation of the same sentence.
+
+
+   \exer: Draw the subgraph of \graphname{EUD}{Elmo} dominated by the node labelled \texttt{Elmo}.
+
+  \begin{solution}[20em]
+    \begin{dependency}
+    \begin{deptext}[column sep=0.2cm]
+      Elmo \& and \& Grover \\
+    \end{deptext}
+    \deproot{1}{root}
+    \depedge{1}{3}{coord}
+    \depedge{3}{2}{cc}
+  \end{dependency}
+
+  \end{solution}
+  
+  
+\part[6] \handin: Draw the subgraph of \graphname{EUD}{Elmo} dominated by the node labelled \texttt{dance}.
+
+\begin{solution}[10em]
+       
+\end{solution}
+  
+\part[0] \exer: The subgraph of \graphname{EUD}{Elmo} dominated by the node labelled \texttt{sing} is almost the whole of \graphname{EUD}{Elmo}. What is different? (Which nodes and/or edges are missing, and where is the root?)
+
+  \begin{solution}[10em]
+    \texttt{love} and its outgoing edges are missing, and the root is at \texttt{sing}.
+
+  \end{solution}
+  
+\end{parts}
+
+\subsection{PSD annotation}
+\label{sec:psd-annotation}
+
+
+\question PSD Annotation
+
+  One of the Semantic Dependency Parsing formalisms is called Prague Semantic Dependencies (PSD). In Fig.~\ref{fig:psd}, you can see the following properties:
+
+  \begin{enumerate}
+  \item Nouns that are \textit{actors} (a kind of subject) are given the role \texttt{ACT-arg}. \texttt{ACT} is short for \textit{actor} and \texttt{arg} is short for \textit{argument}.
+  \item Manner adverbs like \textit{goofily} are dependents of the verb they modify, and the edge label is \texttt{MANN}, short for \textit{manner}.
+    
+  \item Like in EUD, when there is coordination, argument roles are spread to and from all conjuncts. e.g. there is an \texttt{ACT-arg} edge from \texttt{dancing} to both \texttt{Elmo} and \texttt{Kermit}.
+  \item Coordination is expressed with \texttt{CONJ.member} edges from the conjunction to all members of the coordinated phrase.
+  \item Most function words like \textit{are} and \textit{the} are not connected to the rest of the graph.
+  \end{enumerate}
+
+  \begin{figure}[htbp]
+    \centering
+    \begin{dependency}
+      \begin{deptext}[column sep=1.2cm]
+        Elmo \& and \& Kermit \& are \& dancing \& goofily \\
+      \end{deptext}
+      \deproot{5}{root}
+      \depedge[edge unit distance=1.5ex]{5}{3}{ACT-arg}
+      \depedge[edge unit distance=1.5ex]{5}{1}{ACT-arg}
+      \depedge{2}{1}{CONJ.member}
+      \depedge{2}{3}{CONJ.member}
+      \depedge{5}{6}{MANN}      
+    \end{dependency}
+    
+    \caption{PSD}
+    \label{fig:psd}
+  \end{figure}
+
+  \begin{parts}
+  \part[5] \handin: Annotate the following sentence in PSD. Use the notes above along with the following information.
+
+    Sentence: \textit{I saw the child tickle her teddy and laugh.}
+
+    \begin{enumerate}
+    \item The subjects of \textit{tickle}, \textit{saw}, and \textit{laugh} are all actors.
+    \item The objects of \textit{tickle} and \textit{saw} are patients, annotated \texttt{PAT-arg}.
+    \item Like in UD, the main verb of a clause is the head, so that's where any incoming edges to the whole clause should attach.
+    \item The thing that I saw was the whole proposition \textit{the child tickle her teddy and laugh}. \textit{The child} is not itself an object of \textit{saw}.
+    \item Possessives are dependents of the possessed objects, and the edge is labelled \texttt{APP}. There is no edge between the possessive pronoun and the noun it refers back to.
+    \end{enumerate}
+
+    \begin{solution}[10em]
+       
+    \end{solution}
+    
+  \end{parts}
+
+\subsection{Coordination Strategies}
+\label{sec:coord-strat}
+
+
+  
+\question Coordination strategies
+
+The following questions will concern the graphs in Appendix \ref{sec:elmo}. You have already seen \graphname{UD}{Elmo} and \graphname{EUD}{Elmo}, and now we introduce  \graphname{AMR}{Elmo} in Fig.\ \ref{fig:amr-elmo} and \graphname{PSD}{Elmo} in Fig.\ \ref{fig:psd-elmo}. All are annotations of the same sentence.
+
+ 
+  \begin{parts}
+  \part[0] \exer:  Fill in the following table, using the notes below for guidance. \label{q:table}
+
+    \begin{itemize}
+    \item \textit{Direct dependents} of a node $n$ are nodes $m$ such that there is an edge $(n,m)$.
+     
+    \item ``the second node labelled \textit{and}'' means the node that semantically corresponds to the second \textit{and} of the sentence. (Since for all but AMR the nodes are just the words of the sentence, this just means the second \textit{and} of the sentence for UD, EUD, and PSD.)
+
+    \item   $\langle\text{\texttt{Grover}}\rangle$ means the subgraph dominated by the node labelled \texttt{Grover}.
+      
+    \item   For AMR, instead of $\langle\text{\texttt{Grover}}\rangle$, answer for $\langle\text{\texttt{p}}\rangle$, where \texttt{p} is the node labelled \texttt{person} that semantically corresponds to Grover.
+    \end{itemize}
+  \begin{tabular}[H]{p{0.12\linewidth}||p{0.2\linewidth}|p{0.2\linewidth}|p{0.2\linewidth}|p{0.2\linewidth}}
+    & \graphname{UD}{Elmo} & \graphname{EUD}{Elmo} & \graphname{AMR}{Elmo}  & \graphname{PSD}{Elmo} \\
+    \hline
+    Root node label &&&&\\
+    \hline
+    Node labels of direct dependents of the second node labelled \texttt{and} &&&&\\
+    \hline
+    \subgraph{\texttt{Grover}}&&&&\\
+    (AMR: see note above)&&&&\\
+    &&&&\\
+    &&&&\\
+    &&&&\\
+    &&&&\\
+    &&&&\\
+    &&&&\\
+  \end{tabular}
+
+  \begin{solution}    
+    
+    \begin{tabular}[H]{p{0.12\linewidth}||p{0.2\linewidth}|p{0.2\linewidth}|p{0.2\linewidth}|l}
+    & \graphname{UD}{Elmo} & \graphname{EUD}{Elmo} & \graphname{AMR}{Elmo}  & \graphname{PSD}{Elmo} \\
+    \hline
+    Root node label &love & love& love& love-01\\
+    \hline
+    Direct dependents of the second node labelled \texttt{and} &&&&\\
+    &none & none& sing-01 & sing\\
+    &&& dance-01& dance\\
+    &&& joy & \\
+       \hline
+     \subgraph{\texttt{Grover}}& \begin{dependency}
+    \begin{deptext}[column sep=0.2cm]
+      and \& Grover \\
+    \end{deptext}
+    \deproot{2}{root}
+    \depedge{2}{1}{cc}
+  \end{dependency} &\begin{dependency}
+    \begin{deptext}[column sep=0.2cm]
+      and  \& Grover \\
+    \end{deptext}
+    \deproot{2}{root}
+    \depedge{2}{1}{cc}
+  \end{dependency}& \begin{dependency}
+    \begin{deptext}
+      person \& name \& Grover \\
+    \end{deptext}
+    \deproot{1}{root}
+    \depedge{1}{2}{name}
+    \depedge{2}{3}{op1}
+  \end{dependency} & \begin{dependency}
+    \begin{deptext}[column sep=0.7cm]
+      Grover \\
+    \end{deptext}
+    \deproot{1}{root}
+  \end{dependency} \\
+     \end{tabular}
+
+  \end{solution}
+  
+
+  Coordination is usually between phrases of the same syntactic and semantic category. For example, \textit{I like bread and cheese} is has coordination of nouns, but \textit{*I like shiny and cheese} has coordination of an adjective and noun, and is ungrammatical. In our sentence, \textit{sing} and \textit{dance} are conjoined. In this question we will see how similar the subgraphs dominated by \texttt{sing} and \texttt{dance} are. Note we've already looked at these subgraphs for UD and EUD.
+
+  \part[0] \exer: Draw the subgraph of \graphname{PSD}{Elmo} dominated by the node labelled \texttt{sing}.
+
+
+  \begin{solution}[20em]
+    \begin{dependency}
+      \begin{deptext}[column sep=0.3cm]
+        Elmo \&\& \& Grover \& \& \& sing \& \& \& goofily \\
+      \end{deptext}
+      \deproot{7}{root}
+      \depedge{7}{10}{MANN}
+      \depedge[edge below]{7}{4}{ACT-arg}
+      \depedge[edge below]{7}{1}{ACT-arg}
+    \end{dependency}
+    
+  \end{solution}
+  
+ \part[2] \handin: Draw the subgraph of \graphname{PSD}{Elmo} dominated by the node labelled \texttt{dance}.
+
+    \begin{solution}[10em]
+       
+    \end{solution}
+ 
+ \part[2] \handin: Draw the subgraph of \graphname{AMR}{Elmo} dominated by the node labelled \texttt{dance-01}.
+    \begin{solution}[10em]
+       
+    \end{solution}
+ 
+ \part[2] \handin: Draw the subgraph of \graphname{AMR}{Elmo} dominated by the node labelled \texttt{sing-01}.
+ 
+ \begin{solution}[20em]
+   
+ \end{solution}
+
+  \end{parts}
+
+    
+  \question \label{entail} We expect to be able to read some semantic entailments off of a semantic representation. In this section you are asked to find a subgraph that seems to represent some entailments from the sentence.
+
+    We'll continue with the same sentence:
+    
+    \ex. Elmo and Grover love to sing and dance goofily \label{ex:elmo}
+
+    For example, we know that the dancing we're talking about is goofy. A subgraph of \graphname{PSD}{Elmo} that corresponds to this is below. Check for yourself that this is in fact a subgraph of \graphname{PSD}{Elmo} and that it seems to carry this meaning.
+
+    \begin{dependency}
+      \begin{deptext}[column sep=0.7cm]
+      dance \& goofily \\
+    \end{deptext}
+    \deproot{1}{root}
+    \depedge{1}{2}{MANN}
+
+  \end{dependency}
+
+  This is the smallest graph that contains a path (directed or undirected) between the two key words to this entailment: \textit{dance} and \textit{goofily}. (Check for yourself that this is true.) In the following questions we operationalise the idea of an entailments as such a subgraph. Specifically, we are interested in what we'll call \textit{Minimal connected subgraphs} for a set of nodes.
+
+  \begin{definition}[Minimal connected subgraph for a set of nodes]
+    Let $G$ be a graph, and let $X\subseteq N_G$ be a set of nodes in $G$. A minimal connected subgraph of $G$ for $X$ is a subgraph $S$ of $G$ with the following properties:
+    \begin{enumerate}
+    \item $X\subseteq N_S$
+    \item $S$ is connected
+    \item All nodes and edges in $S$ that are labelled in $G$ are also labelled in $S$.
+    \item All subgraphs of $G$ with properties (1), (2), and (3) have the same number of edges or more edges than $S$.
+    \end{enumerate}
+  \end{definition}
+
+  Notice these subgraphs \textbf{do not} need to be subgraphs dominated by a node. There can also be more than one minimal subgraph for a set of nodes. In particular, nothing in the definition specifies the root of $S$. In your answers, the root can be anything, but I recommend you use the chance to see where it seems like the root ``should'' be, linguistically, since this is probably where root of the subgraph would be for the AM algebra.
+
+  If you're not sure your answer is clear, you can add a comment explaining your reasoning.
+
+  
+  \begin{parts}
+
+  \part[0] \exer: Draw a connected subgraph of \graphname{UD}{Elmo} that expresses
+    the fact that the singing is goofy.  That is, draw a minimal connected subgraph for the nodes labelled \texttt{sing} and \texttt{goofily}.
+
+
+    \begin{solution}[10em]
+
+      You can put the root wherever you  want, but notice that it's
+      not a tree unless you put it at \texttt{sing}.
+      
+      \begin{dependency}
+        \begin{deptext}[column sep=0.2cm]
+          sing \& goofily \\
+        \end{deptext}
+        \deproot{1}{root}
+        \depedge{1}{2}{advmod}
+      \end{dependency}
+    \end{solution}
+    
+  \part[1] \handin: Draw a connected subgraph of \graphname{UD}{Elmo} that expresses the fact that the dancing is also goofy. That is, draw a minimal connected subgraph for the nodes labelled \texttt{dance} and \texttt{goofily}.
+
+    \begin{solution}[10em]
+     
+    \end{solution}
+    
+    
+  \part[1] \handin: Draw a connected subgraph of \graphname{EUD}{Elmo} that expresses the fact that the dancing is goofy.
+    
+    \begin{solution}[10em]
+     
+    \end{solution}
+    
+
+     \part[1] \handin: Draw a connected subgraph of \graphname{PSD}{Elmo} that expresses the fact that the dancing is goofy.  That is, draw a minimal connected subgraph for the nodes labelled \texttt{dance} and \texttt{goofily}.
+
+
+     \begin{solution}[10em]
+       
+     \end{solution}
+     
+     \part[1] \handin: Draw a connected subgraph of \graphname{AMR}{Elmo} that expresses the fact that the dancing is goofy.  That is, draw a minimal connected subgraph for the nodes labelled \texttt{dance-01} and \texttt{joy}.
+     
+     
+     \begin{solution}[10em]
+       
+       
+     \end{solution}
+
+      
+     \part[4] \handin: Draw a minimal connected subgraph of each of the four graphs that expresses the fact that (one of) the people singing is Grover. That is, draw a minimal connected subgraph for the nodes labelled \texttt{sing} and \texttt{Grover}.
+
+      
+     \begin{solution}[50em]
+       
+       
+     \end{solution}
+     
+     
+  \end{parts}
+
+
+\subsection{AM Algebra}
+
+For these questions, use the definition of the Apply-Modify Algebra from the lectures.
+
+Use the following delexicalised graph constants. They can be relexicalised by replacing the *** with a label.
+
+\begin{tabular}{c|c|c|c|c|c|c}
+  Symbol
+  & \graphconstant{N}{***}
+  & \graphconstant{intrans}{***}
+  & \graphconstant{ctrl}{***}
+  & \graphconstant{mann}{***}\\
+  \hline
+  Type
+  & [~]
+  & [\textcolor{red}{S}]
+  & [\textcolor{red}{O}$\rightarrow$\textcolor{red}{S}]
+  & [\textcolor{red}{M}]\\
+  \hline
+  s-graphs\\
+  AMR
+  & \includegraphics[width=0.15\textwidth]{constants.dot.3.pdf}
+  & \includegraphics[width=0.15\textwidth]{constants.dot.pdf}
+  & \includegraphics[width=0.2\textwidth]{constants.dot.4.pdf}
+  & \includegraphics[width=0.15\textwidth]{constants.dot.5.pdf}\\
+  \hline
+  (E)UD
+  & \includegraphics[width=0.15\textwidth]{constants.dot.3.pdf}
+  & \includegraphics[width=0.15\textwidth]{constants.dot.28.pdf}
+  & \includegraphics[width=0.2\textwidth]{constants.dot.33.pdf}  
+  & \includegraphics[width=0.15\textwidth]{constants.dot.30.pdf}\\
+  \hline
+  PSD
+  & \includegraphics[width=0.15\textwidth]{constants.dot.3.pdf}
+  & \includegraphics[width=0.15\textwidth]{constants.dot.29.pdf}
+  & \includegraphics[width=0.2\textwidth]{constants.dot.32.pdf}  
+  & \includegraphics[width=0.15\textwidth]{constants.dot.31.pdf}\\
+  \hline
+  
+\end{tabular}
+
+\newpage
+Coordination: all types can go with all s-graphs.
+
+\begin{tabular}{c|c|c|c|c|c|c}
+  Symbol
+  & \graphconstant{c-N}{***}
+  & \graphconstant{c-intrans}{***}
+  & \graphconstant{c-trans}{***}
+  & \graphconstant{c-ctrl}{***}\\
+  \hline
+  type
+  & [\textcolor{red}{op1}, \textcolor{red}{op2}]
+  & \includegraphics[width=0.2\textwidth]{constants.dot.25.pdf}
+  & \includegraphics[width=0.2\textwidth]{constants.dot.26.pdf}
+  & \includegraphics[width=0.2\textwidth]{constants.dot.10.pdf}\\
+  \hline
+  s-graph\\
+  AMR & \multicolumn{4}{|c|}{\includegraphics[width=0.25\textwidth]{constants.dot.2.pdf}}\\
+  \hline
+  (E)UD & \multicolumn{4}{|c|}{\includegraphics[width=0.5\textwidth]{constants.dot.27.pdf}}\\
+  \hline
+  PSD & \multicolumn{4}{|c|}{\includegraphics[width=0.3\textwidth]{constants.dot.35.pdf}}\\
+  \hline
+\end{tabular}
+
+\begin{tabular}{c|c|c|c|c|c|c}
+  Symbol
+  & \graphconstant{person}{***}  ~~(AMR)
+  & \graphconstant{to}{***} ~~((E)UD)\\
+  \hline
+  type
+  & [~]
+  & [\textcolor{red}{M}]\\
+  \hline
+  s-graph
+  & \includegraphics[width=0.5\textwidth]{constants.dot.36.pdf}
+  &  \includegraphics[width=0.3\textwidth]{constants.dot.37.pdf}\\
+  \hline
+\end{tabular}
+
+
+\question
+
+\begin{parts}
+
+\part[0] \exer
+
+Evaluate the following term, using the AMR graph constants. Show the final graph.
+
+\begin{forest}
+  [\apply{S}
+    [\graphconstant{intrans}{dance-01}]
+    [\graphconstant{person}{Grover}]
+  ]
+\end{forest}
+
+\part[2] \handin
+
+What is the request in \graphconstant{intrans}{dance-01} at S, and does it match the type of \graphconstant{person}{Grover}?
+
+    \begin{solution}[5em]
+       
+    \end{solution}
+
+\part[5] \handin
+
+Propose an AM algebra term (or AM dependency tree) that can build  \graphname{AMR}{Elmo}.
+\label{amr-term}
+
+Hint: wait until the very end to attach the \textit{Elmo and Grover} subgraph.
+
+    \begin{solution}[10em]
+       
+    \end{solution}
+
+
+\end{parts}
+
+
+\question[2] \handin
+Evaluate the following term using (E)UD constants. Show the evaluation at each internal node. 
+
+\begin{forest}
+  [\apply{op1}
+    [\graphconstant{N}{Elmo}]
+    [\apply{op2}
+      [\graphconstant{c-N}{and}]
+      [\graphconstant{N}{Grover}]
+    ]
+  ]
+\end{forest}
+
+
+\question[2] \handin
+\label{term-ud}
+
+The term in question \ref{amr-term} above can also build the UD dependency tree with fairly minimal changes. What are the changes? 
+
+\question[3] Evaluate your term from question \ref{term-ud} but interpret the constants into the PSD graphs instead, and leave out the edge to the node labelled \textit{to}. Do you get \graphname{PSD}{Elmo}? Describe any differences.
+
+\begin{solution}
+
+ 
+\end{solution}
+
+
+\question[4]
+
+Neither \graphname{PSD}{Elmo} nor \graphname{EUD}{Elmo} can be built by the AM algebra from the graph constants provided here. Draw one subgraph of one of the graphs that can't be built, and explain why not.
+
+\begin{solution}
+
+ 
+\end{solution}
+
+
+\subsection{Coordination Choices}
+
+  \question[10] Annotation choices for coordination are very difficult. Often the things that we want are in conflict with one another. For example, one of UD's guiding principles is to make content words like \textit{Grover} heads, and function words like \textit{and} dependents. Notice, though, that this makes the subgraphs dominated by \textit{Elmo} and \textit{Grover} very different from one another. As we saw back in question \ref{q:ud-bahf}, \subgraph{\texttt{Elmo}} contains the words \textit{Elmo and Grover}, but in question \ref{q:table}, I hope, you saw that \subgraph{Grover} contains \textit{and Grover}. These are very different, and in fact one contains the other! In general, we think of coordination as highly symmetric, with the things being coordinated being of the same ``type'', for instance, the same syntactic category (here, \textit{Elmo} and \textit{Grover} are both noun phrases). 
+
+    
+    This violates the principle that coordination should be symmetric.\footnote{Assuming we think that subgraphs dominated by nodes are meaningful units of the graphs, of course! Notice that in UD these are usually very natural subparts of the sentence (called \textit{constituents}), but you could, if you like, argue that this same principle shouldn't be applied to (some of?) the other formalisms.}
+
+    These exercises have given you a lot of insight into the results of the choices made for coordination in each of the four graph formalisms we looked at today (UD, EUD, PSD, and AMR). (Note some of the relevant subgraphs are in earlier questions.)
+
+    Here are three proposed desiderata for coordination. That is, let's imagine that ideally, our coordination annotations would obey all three of these principles.
+
+    \begin{enumerate}
+    \item Coordination should be symmetrical.
+    \item You should be able to read entailments directly from the graph, like we did in question \ref{entail} above.
+    \item Content words should be heads, and function words (such as \textit{and}) should be their dependents.
+    \end{enumerate}
+
+ \handin:   Look back over the four graph formalisms through the lens of each of these desiderata. \textbf{Which would you say is the ``best'', in terms of the three desiderata?} Argue your case, using the  \textit{Elmo and Grover love to sing and dance goofily} graphs as an example. Address each of the desiderata.
+
+ You may use arguments from the AM algebra as well if you like, but you don't have to. Keep in mind that this is just one idea of how semantic graphs might be built, so it's not definitive proof one way or the other.
+ 
+    Your answer should be around a page long. Use examples, and when you do, refer back to your graphs and subgraphs from earlier in the assignment clearly, but don't re-draw them if you don't have to. 
+
+    Your argumentation is more important than your answer.
+    
+    \begin{solution}
+      
+      
+    \end{solution}
+
+
+
+\end{questions}
+
+\FloatBarrier
+\appendix
+\include{appendix}
+
+
+
+\end{document}
+
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: t
+%%% End:
